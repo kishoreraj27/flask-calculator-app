@@ -1,155 +1,212 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Calculator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Calculator</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Segoe UI", sans-serif;
-        }
+<style>
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg,#667eea,#764ba2);
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
 
-        .container {
-            width: 400px;
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        }
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+}
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
+.container{
+    width:380px;
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
 
-        .subtitle {
-            text-align: center;
-            color: gray;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
+.title{
+    text-align:center;
+    color:white;
+    margin-bottom:15px;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-        }
+.subtitle{
+    text-align:center;
+    color:#94a3b8;
+    font-size:12px;
+    margin-bottom:20px;
+}
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-        }
+.display{
+    width:100%;
+    height:80px;
+    border:none;
+    border-radius:15px;
+    padding:15px;
+    text-align:right;
+    font-size:28px;
+    margin-bottom:20px;
+    background:#0f172a;
+    color:white;
+}
 
-        button:hover {
-            background: #5a67d8;
-        }
+.buttons{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
 
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f4f4f4;
-            border-radius: 10px;
-            text-align: center;
-        }
+button{
+    height:60px;
+    border:none;
+    border-radius:15px;
+    font-size:20px;
+    cursor:pointer;
+    transition:0.3s;
+}
 
-        .result h2 {
-            color: #2d3748;
-        }
+button:hover{
+    transform:scale(1.05);
+}
 
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: gray;
-        }
+.number{
+    background:#334155;
+    color:white;
+}
 
-        .badge {
-            display: inline-block;
-            background: #48bb78;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-    </style>
+.operator{
+    background:#2563eb;
+    color:white;
+}
+
+.equal{
+    background:#22c55e;
+    color:white;
+}
+
+.clear{
+    background:#ef4444;
+    color:white;
+}
+
+.footer{
+    margin-top:20px;
+    text-align:center;
+    color:#94a3b8;
+    font-size:12px;
+}
+
+.status{
+    margin-top:10px;
+    text-align:center;
+    color:#22c55e;
+    font-size:12px;
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="container">
 
-    <div style="text-align:center">
-        <span class="badge">Docker + Flask</span>
-    </div>
-
-    <h1>🧮 Cloud Calculator</h1>
+    <h2 class="title">☁️ Cloud Calculator</h2>
 
     <p class="subtitle">
-        Flask Application running inside Docker Container
+        Flask • Docker • AWS EC2
     </p>
 
-    <form method="POST">
+    <input type="text" id="display" class="display" readonly>
 
-        <input type="number"
-               step="any"
-               name="num1"
-               placeholder="Enter First Number"
-               required>
+    <div class="buttons">
 
-        <select name="operation">
-            <option value="add">Addition (+)</option>
-            <option value="subtract">Subtraction (-)</option>
-            <option value="multiply">Multiplication (×)</option>
-            <option value="divide">Division (÷)</option>
-        </select>
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button class="operator" onclick="append('%')">%</button>
+        <button class="operator" onclick="sqrtCalc()">√</button>
+        <button class="operator" onclick="append('/')">÷</button>
 
-        <input type="number"
-               step="any"
-               name="num2"
-               placeholder="Enter Second Number"
-               required>
+        <button class="number" onclick="append('7')">7</button>
+        <button class="number" onclick="append('8')">8</button>
+        <button class="number" onclick="append('9')">9</button>
+        <button class="operator" onclick="append('*')">×</button>
 
-        <button type="submit">
-            Calculate
-        </button>
+        <button class="number" onclick="append('4')">4</button>
+        <button class="number" onclick="append('5')">5</button>
+        <button class="number" onclick="append('6')">6</button>
+        <button class="operator" onclick="append('-')">−</button>
 
-    </form>
+        <button class="number" onclick="append('1')">1</button>
+        <button class="number" onclick="append('2')">2</button>
+        <button class="number" onclick="append('3')">3</button>
+        <button class="operator" onclick="append('+')">+</button>
 
-    {% if result is not none %}
-    <div class="result">
-        <h2>Result: {{ result }}</h2>
+        <button class="number" onclick="append('0')">0</button>
+        <button class="number" onclick="append('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+        <button class="operator" onclick="power()">x²</button>
+
     </div>
-    {% endif %}
+
+    <div class="status">
+        🟢 Docker Container Running
+    </div>
 
     <div class="footer">
-        Built by Kishore Raj 🚀 | AWS • Docker • DevOps
+        Built by Kishore Raj 🚀
     </div>
 
 </div>
 
+<script>
+
+let display = document.getElementById("display");
+
+function append(value){
+    display.value += value;
+}
+
+function clearDisplay(){
+    display.value = "";
+}
+
+function calculate(){
+    try{
+        display.value = eval(display.value);
+    }
+    catch{
+        display.value = "Error";
+    }
+}
+
+function sqrtCalc(){
+    try{
+        display.value = Math.sqrt(eval(display.value));
+    }
+    catch{
+        display.value = "Error";
+    }
+}
+
+function power(){
+    try{
+        display.value = Math.pow(eval(display.value),2);
+    }
+    catch{
+        display.value = "Error";
+    }
+}
+
+</script>
+
 </body>
 </html>
+```
