@@ -1,12 +1,9 @@
-```yaml
 services:
-
   flask-calculator:
-    build: .
+    image: flask-calculator:v2
     container_name: flask-calculator
 
     ports:
       - "5000:5000"
 
     restart: always
-```
