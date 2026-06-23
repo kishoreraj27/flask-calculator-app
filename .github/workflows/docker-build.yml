@@ -9,7 +9,6 @@ jobs:
 docker:
 runs-on: ubuntu-latest
 
-```
 steps:
   - name: Checkout Repository
     uses: actions/checkout@v4
@@ -26,4 +25,4 @@ steps:
       context: .
       push: true
       tags: kishoreraj27/flask-calculator:latest
-```
+
