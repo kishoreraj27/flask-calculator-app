@@ -1,9 +1,9 @@
 name: Build and Push Docker Image
 
 on:
-  push:
-    branches:
-      - main
+push:
+branches:
+- main
 
 jobs:
 docker:
@@ -25,4 +25,3 @@ steps:
       context: .
       push: true
       tags: kishoreraj27/flask-calculator:latest
-
